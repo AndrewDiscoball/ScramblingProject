@@ -87,7 +87,8 @@ def psnr(original_image, scrambled_image):
     return 20 * np.log10(max_pixel / np.sqrt(mse))
 
 # Тестирование кода
-original_image = np.array(Image.open("Protorave.png"))
+image_path = input('Введите путь к файлу изображения: ')
+original_image = np.array(Image.open(image_path))
 original_image_padded = pad_image_to_block_size(original_image)
 normalized_original_image = normalize_image(original_image_padded)
 
