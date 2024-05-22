@@ -86,6 +86,8 @@ def psnr(original_image, scrambled_image):
     max_pixel = 255.0
     return 20 * np.log10(max_pixel / np.sqrt(mse))
 
+# Здесь должно быть что-то, исправляющее несуществующую ошибку
+
 # Тестирование кода
 image_path = input('Введите путь к файлу изображения: ')
 original_image = np.array(Image.open(image_path))
