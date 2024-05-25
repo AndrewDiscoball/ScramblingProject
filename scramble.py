@@ -49,7 +49,7 @@ def scramble_image(image, seed, p, n):
     return scrambled_image
 
 def descramble_image(scrambled_image, seed, p, n):
-    np.random.seed(seed)
+    np.random.seed(seed+4)
     height, width, channels = scrambled_image.shape
     descrambled_image = np.zeros_like(scrambled_image)
 
