@@ -3,7 +3,7 @@ from PIL import Image
 from scramble import normalize_image, pad_image_to_block_size, scramble_image, descramble_image, psnr
 
 def test_scramble_descramble():
-    original_image = np.array(Image.open(Protorave.png))
+    original_image = np.array(Image.open("Protorave.png"))
     original_image_padded = pad_image_to_block_size(original_image)
     normalized_original_image = normalize_image(original_image_padded)
 
