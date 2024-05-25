@@ -85,28 +85,3 @@ def psnr(original_image, scrambled_image):
     mse = np.mean((original_image - scrambled_image) ** 2)
     max_pixel = 255.0
     return 20 * np.log10(max_pixel / np.sqrt(mse))
-
-# Здесь должно быть что-то, исправляющее несуществующую ошибку? Нет, этого не будет.
-
-# Тестирование кода
-image_path = input('Введите путь к файлу изображения: ')
-original_image = np.array(Image.open(image_path))
-original_image_padded = pad_image_to_block_size(original_image)
-normalized_original_image = normalize_image(original_image_padded)
-
-seed = 300  # Зерно генератора случайных чисел
-p = 0.9  # Вероятность p
-n = 2  # Число n
-scrambled_image = scramble_image(normalized_original_image, seed, p, n)
-scrambled_image = (scrambled_image * 255).astype(np.uint8)
-scrambled_image = Image.fromarray(scrambled_image)
-scrambled_image.save("scrambled_image.png")
-normalized_scrambled_image = normalize_image(scrambled_image) 
- # Нормализация скремблированного изображения перед дескремблированием
-descrambled_image = descramble_image(normalized_scrambled_image, seed, p, n)
-descrambled_image = (descrambled_image * 255).astype(np.uint8)
-descrambled_image = Image.fromarray(descrambled_image)
-descrambled_image.save("descrambled_image.png")
-
-psnr_value = psnr(normalized_original_image, normalized_scrambled_image)
-print("PSNR:", psnr_value)
