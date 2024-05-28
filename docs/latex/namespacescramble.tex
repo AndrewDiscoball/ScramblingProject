@@ -1,0 +1,134 @@
+\doxysection{scramble Namespace Reference}
+\hypertarget{namespacescramble}{}\label{namespacescramble}\index{scramble@{scramble}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacescramble_aea771bbd217de57ab48f357d0313d1d7}{normalize\+\_\+image}} (image)
+\begin{DoxyCompactList}\small\item\em Нормализует значения компонент изображения в интервал \mbox{[}0, 1\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacescramble_ac6ceaa855a30f04f93f3395297c496bf}{pad\+\_\+image\+\_\+to\+\_\+block\+\_\+size}} (image, block\+\_\+size=8)
+\begin{DoxyCompactList}\small\item\em Дополняет изображение до размера блока \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacescramble_a3f3f0d29da90e9e380de02355d10ae62}{scramble\+\_\+image}} (image, seed, p, n)
+\begin{DoxyCompactList}\small\item\em Скремблирует изображение \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacescramble_a240566878929917a6bd30168677ad574}{descramble\+\_\+image}} (scrambled\+\_\+image, seed, p, n)
+\begin{DoxyCompactList}\small\item\em Дескремблирует изображение \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacescramble_a160eeee4b5a07290449baa6985d4644d}{psnr}} (original\+\_\+image, scrambled\+\_\+image)
+\begin{DoxyCompactList}\small\item\em Ищет отношение сигнал/шум у исходного и скремблированного изображений \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacescramble_a240566878929917a6bd30168677ad574}\index{scramble@{scramble}!descramble\_image@{descramble\_image}}
+\index{descramble\_image@{descramble\_image}!scramble@{scramble}}
+\doxysubsubsection{\texorpdfstring{descramble\_image()}{descramble\_image()}}
+{\footnotesize\ttfamily \label{namespacescramble_a240566878929917a6bd30168677ad574} 
+scramble.\+descramble\+\_\+image (\begin{DoxyParamCaption}\item[{}]{scrambled\+\_\+image}{, }\item[{}]{seed}{, }\item[{}]{p}{, }\item[{}]{n}{}\end{DoxyParamCaption})}
+
+
+
+Дескремблирует изображение 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scrambled\+\_\+image} & Скремблированное ранее изображение. \\
+\hline
+{\em seed} & Зерно для генератора случайных чисел. \\
+\hline
+{\em p} & Вероятность появления 1 в матрице Bk. \\
+\hline
+{\em n} & Порог для модификации матрицы DCT. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Дескремблированное изображение изображение. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{scramble_8py_source_l00071}{71}} of file \mbox{\hyperlink{scramble_8py_source}{scramble.\+py}}.
+
+\Hypertarget{namespacescramble_aea771bbd217de57ab48f357d0313d1d7}\index{scramble@{scramble}!normalize\_image@{normalize\_image}}
+\index{normalize\_image@{normalize\_image}!scramble@{scramble}}
+\doxysubsubsection{\texorpdfstring{normalize\_image()}{normalize\_image()}}
+{\footnotesize\ttfamily \label{namespacescramble_aea771bbd217de57ab48f357d0313d1d7} 
+scramble.\+normalize\+\_\+image (\begin{DoxyParamCaption}\item[{}]{image}{}\end{DoxyParamCaption})}
+
+
+
+Нормализует значения компонент изображения в интервал \mbox{[}0, 1\mbox{]}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Изображение для последующей нормализации. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Нормализованное изображение. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{scramble_8py_source_l00011}{11}} of file \mbox{\hyperlink{scramble_8py_source}{scramble.\+py}}.
+
+\Hypertarget{namespacescramble_ac6ceaa855a30f04f93f3395297c496bf}\index{scramble@{scramble}!pad\_image\_to\_block\_size@{pad\_image\_to\_block\_size}}
+\index{pad\_image\_to\_block\_size@{pad\_image\_to\_block\_size}!scramble@{scramble}}
+\doxysubsubsection{\texorpdfstring{pad\_image\_to\_block\_size()}{pad\_image\_to\_block\_size()}}
+{\footnotesize\ttfamily \label{namespacescramble_ac6ceaa855a30f04f93f3395297c496bf} 
+scramble.\+pad\+\_\+image\+\_\+to\+\_\+block\+\_\+size (\begin{DoxyParamCaption}\item[{}]{image}{, }\item[{}]{block\+\_\+size}{ = {\ttfamily 8}}\end{DoxyParamCaption})}
+
+
+
+Дополняет изображение до размера блока 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Изображение для дополнения. \\
+\hline
+{\em block\+\_\+size} & Размер блока для дополнения. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Дополненное изображение. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{scramble_8py_source_l00018}{18}} of file \mbox{\hyperlink{scramble_8py_source}{scramble.\+py}}.
+
+\Hypertarget{namespacescramble_a160eeee4b5a07290449baa6985d4644d}\index{scramble@{scramble}!psnr@{psnr}}
+\index{psnr@{psnr}!scramble@{scramble}}
+\doxysubsubsection{\texorpdfstring{psnr()}{psnr()}}
+{\footnotesize\ttfamily \label{namespacescramble_a160eeee4b5a07290449baa6985d4644d} 
+scramble.\+psnr (\begin{DoxyParamCaption}\item[{}]{original\+\_\+image}{, }\item[{}]{scrambled\+\_\+image}{}\end{DoxyParamCaption})}
+
+
+
+Ищет отношение сигнал/шум у исходного и скремблированного изображений 
+
+
+
+Definition at line \mbox{\hyperlink{scramble_8py_source_l00105}{105}} of file \mbox{\hyperlink{scramble_8py_source}{scramble.\+py}}.
+
+\Hypertarget{namespacescramble_a3f3f0d29da90e9e380de02355d10ae62}\index{scramble@{scramble}!scramble\_image@{scramble\_image}}
+\index{scramble\_image@{scramble\_image}!scramble@{scramble}}
+\doxysubsubsection{\texorpdfstring{scramble\_image()}{scramble\_image()}}
+{\footnotesize\ttfamily \label{namespacescramble_a3f3f0d29da90e9e380de02355d10ae62} 
+scramble.\+scramble\+\_\+image (\begin{DoxyParamCaption}\item[{}]{image}{, }\item[{}]{seed}{, }\item[{}]{p}{, }\item[{}]{n}{}\end{DoxyParamCaption})}
+
+
+
+Скремблирует изображение 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & Изображение для скремблирования. \\
+\hline
+{\em seed} & Зерно для генератора случайных чисел. \\
+\hline
+{\em p} & Вероятность появления 1 в матрице Bk. \\
+\hline
+{\em n} & Порог для модификации матрицы DCT. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Скремблированное изображение. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{scramble_8py_source_l00032}{32}} of file \mbox{\hyperlink{scramble_8py_source}{scramble.\+py}}.
+

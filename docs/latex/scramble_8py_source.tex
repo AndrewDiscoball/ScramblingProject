@@ -1,0 +1,97 @@
+\doxysection{scramble.\+py}
+\hypertarget{scramble_8py_source}{}\label{scramble_8py_source}\mbox{\hyperlink{scramble_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00001}\mbox{\hyperlink{namespacescramble}{00001}}\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00004}00004\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00005}00005\ \textcolor{keyword}{from}\ scipy.fftpack\ \textcolor{keyword}{import}\ dct,\ idct}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00006}00006\ \textcolor{keyword}{from}\ PIL\ \textcolor{keyword}{import}\ Image}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00011}\mbox{\hyperlink{namespacescramble_aea771bbd217de57ab48f357d0313d1d7}{00011}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacescramble_aea771bbd217de57ab48f357d0313d1d7}{normalize\_image}}(image):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00012}00012\ \ \ \ \ \textcolor{keywordflow}{return}\ np.array(image)\ /\ 255.0}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00018}\mbox{\hyperlink{namespacescramble_ac6ceaa855a30f04f93f3395297c496bf}{00018}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacescramble_ac6ceaa855a30f04f93f3395297c496bf}{pad\_image\_to\_block\_size}}(image,\ block\_size=8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00019}00019\ \ \ \ \ height,\ width,\ channels\ =\ image.shape}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00020}00020\ \ \ \ \ padded\_height\ =\ np.ceil(height\ /\ block\_size)\ *\ block\_size}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00021}00021\ \ \ \ \ padded\_width\ =\ np.ceil(width\ /\ block\_size)\ *\ block\_size}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00022}00022\ \ \ \ \ padded\_image\ =\ np.zeros((int(padded\_height),\ int(padded\_width),\ channels))}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00023}00023\ \ \ \ \ padded\_image[:height,\ :width,\ :]\ =\ image}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00024}00024\ \ \ \ \ \textcolor{keywordflow}{return}\ padded\_image}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00032}\mbox{\hyperlink{namespacescramble_a3f3f0d29da90e9e380de02355d10ae62}{00032}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacescramble_a3f3f0d29da90e9e380de02355d10ae62}{scramble\_image}}(image,\ seed,\ p,\ n):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00033}00033\ \ \ \ \ np.random.seed(seed)}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00034}00034\ \ \ \ \ height,\ width,\ channels\ =\ image.shape}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00035}00035\ \ \ \ \ scrambled\_image\ =\ np.zeros\_like(image)}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00037}00037\ \ \ \ \ \textcolor{comment}{\#\ Разбиваем\ изображение\ на\ блоки\ 8x8}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(0,\ height,\ 8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(0,\ width,\ 8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ range(channels):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block\ =\ image[i:i\ +\ 8,\ j:j\ +\ 8,\ c]}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Применяем\ дискретное\ косинусное\ преобразование\ (DCT)}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dct\_block\ =\ dct(dct(block.T,\ norm=\textcolor{stringliteral}{'ortho'}).T,\ norm=\textcolor{stringliteral}{'ortho'})}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Создаем\ матрицу\ Bk\ с\ элементами\ -\/1\ и\ 1}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Bk\ =\ np.random.choice([1,\ -\/1],\ size=(8,\ 8),\ p=[p,\ 1\ -\/\ p])}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Модифицируем\ матрицу\ DCT}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ range(8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ y\ \textcolor{keywordflow}{in}\ range(8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ x\ >=\ n\ \textcolor{keywordflow}{or}\ y\ >=\ n:}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dct\_block[x,\ y]\ *=\ Bk[x,\ y]}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Применяем\ обратное\ дискретное\ косинусное\ преобразование\ (IDCT)}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block\ =\ idct(idct(dct\_block.T,\ norm=\textcolor{stringliteral}{'ortho'}).T,\ norm=\textcolor{stringliteral}{'ortho'})}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Ограничиваем\ значения\ в\ пределах\ [0,\ 1]}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block[idct\_block\ <\ 0]\ =\ 0}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block[idct\_block\ >\ 1]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scrambled\_image[i:i\ +\ 8,\ j:j\ +\ 8,\ c]\ =\ idct\_block}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00063}00063\ \ \ \ \ \textcolor{keywordflow}{return}\ scrambled\_image}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00071}\mbox{\hyperlink{namespacescramble_a240566878929917a6bd30168677ad574}{00071}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacescramble_a240566878929917a6bd30168677ad574}{descramble\_image}}(scrambled\_image,\ seed,\ p,\ n):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00072}00072\ \ \ \ \ np.random.seed(seed+9)}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00073}00073\ \ \ \ \ height,\ width,\ channels\ =\ scrambled\_image.shape}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00074}00074\ \ \ \ \ descrambled\_image\ =\ np.zeros\_like(scrambled\_image)}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00076}00076\ \ \ \ \ \textcolor{comment}{\#\ Разбиваем\ изображение\ на\ блоки\ 8x8}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00077}00077\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(0,\ height,\ 8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(0,\ width,\ 8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ range(channels):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block\ =\ scrambled\_image[i:i\ +\ 8,\ j:j\ +\ 8,\ c]}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Применяем\ дискретное\ косинусное\ преобразование\ (DCT)}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dct\_block\ =\ dct(dct(block.T,\ norm=\textcolor{stringliteral}{'ortho'}).T,\ norm=\textcolor{stringliteral}{'ortho'})}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Создаем\ матрицу\ Bk\ с\ элементами\ -\/1\ и\ 1}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Bk\ =\ np.random.choice([1,\ -\/1],\ size=(8,\ 8),\ p=[p,\ 1\ -\/\ p])}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Модифицируем\ матрицу\ DCT\ обратно}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ range(8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ y\ \textcolor{keywordflow}{in}\ range(8):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ x\ >=\ n\ \textcolor{keywordflow}{or}\ y\ >=\ n:}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dct\_block[x,\ y]\ /=\ Bk[x,\ y]}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Применяем\ обратное\ дискретное\ косинусное\ преобразование\ (IDCT)}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block\ =\ idct(idct(dct\_block.T,\ norm=\textcolor{stringliteral}{'ortho'}).T,\ norm=\textcolor{stringliteral}{'ortho'})}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Ограничиваем\ значения\ в\ пределах\ [0,\ 1]}}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block[idct\_block\ <\ 0]\ =\ 0}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idct\_block[idct\_block\ >\ 1]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ descrambled\_image[i:i\ +\ 8,\ j:j\ +\ 8,\ c]\ =\ idct\_block}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00102}00102\ \ \ \ \ \textcolor{keywordflow}{return}\ descrambled\_image}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00105}\mbox{\hyperlink{namespacescramble_a160eeee4b5a07290449baa6985d4644d}{00105}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacescramble_a160eeee4b5a07290449baa6985d4644d}{psnr}}(original\_image,\ scrambled\_image):}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00106}00106\ \ \ \ \ mse\ =\ np.mean((original\_image\ -\/\ scrambled\_image)\ **\ 2)}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00107}00107\ \ \ \ \ max\_pixel\ =\ 255.0}
+\DoxyCodeLine{\Hypertarget{scramble_8py_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{return}\ 20\ *\ np.log10(max\_pixel\ /\ np.sqrt(mse))}
+
+\end{DoxyCode}
